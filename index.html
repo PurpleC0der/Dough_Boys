@@ -162,7 +162,6 @@
       document.documentElement.classList.add('modal-open');
       document.body.classList.add('modal-open');
       backdrop.classList.add('open');
-      document.querySelector('#order-name').focus();
     }));
     document.querySelectorAll('[data-quantity]').forEach(button=>button.addEventListener('click',()=>{
       const row=button.closest('.order-flavor');
