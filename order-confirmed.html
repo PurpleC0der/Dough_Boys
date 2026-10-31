@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3e2c4">
+  <title>Order Confirmed · Dough Boys</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Shrikhand&display=swap" rel="stylesheet">
+  <style>
+    :root{--cream:#f3e2c4;--paper:#fff8e9;--brown:#3d2314;--muted:#765b43;--orange:#bd572b;--gold:#d4a373;--line:rgba(61,35,20,.22);--sans:'DM Sans',sans-serif;--display:'Shrikhand',cursive}
+    *{box-sizing:border-box}body{min-height:100vh;margin:0;background:radial-gradient(rgba(61,35,20,.12) .8px,transparent .8px);background-size:8px 8px;color:var(--brown);font-family:var(--sans);display:flex;flex-direction:column}a{color:inherit;text-decoration:none}.topbar{min-height:34px;display:grid;place-items:center;background:var(--brown);color:var(--cream);font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase}.topbar span{color:var(--gold);padding:0 9px}header{height:78px;padding:0 clamp(20px,7vw,90px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:rgba(243,226,196,.85)}.brand{font:27px var(--display)}.back{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;border-bottom:1px solid var(--brown);padding:8px 0}main{width:min(100% - 32px,760px);margin:auto;padding:60px 0}.confirmation{background:var(--paper);border:1.5px solid var(--brown);border-radius:10px;box-shadow:8px 9px 0 rgba(61,35,20,.12);padding:clamp(28px,7vw,68px);text-align:center;position:relative;overflow:hidden}.confirmation:before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(61,35,20,.12) .8px,transparent .8px);background-size:8px 8px;opacity:.22;pointer-events:none}.content{position:relative}.stamp{width:66px;height:66px;margin:0 auto 22px;border:2px solid var(--brown);border-radius:50%;display:grid;place-items:center;background:#d9dfc4;font-size:30px}.eyebrow{font-size:10px;font-weight:800;letter-spacing:.22em;text-transform:uppercase}.eyebrow:before,.eyebrow:after{content:'✦';color:var(--orange);padding:0 9px}h1{font:clamp(42px,8vw,68px)/.98 var(--display);margin:14px 0 12px}p{font-size:14px;color:var(--muted);line-height:1.7;margin:0 auto;max-width:480px}.order-box{margin:26px auto 0;max-width:420px;padding:18px 20px;border:1px solid var(--line);border-radius:6px;background:#fffdf7;text-align:left;display:none}.order-box h2{font:18px var(--display);margin:0 0 10px}.order-items{display:grid;gap:7px;padding:0;margin:0;list-style:none;color:var(--muted);font-size:12px}.order-total{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px;margin-top:12px;font-weight:800;font-size:12px}.note{margin-top:20px;font-size:11px}.home{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:26px;padding:0 22px;border:2px solid var(--brown);border-radius:5px;background:var(--orange);color:var(--paper);box-shadow:4px 4px 0 var(--brown);font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;transition:transform .18s,box-shadow .18s}.home:hover{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--brown)}footer{padding:20px;background:#29170e;color:#cbb79e;text-align:center;font-size:9px;letter-spacing:.12em;text-transform:uppercase}
+    @media(max-width:520px){.topbar{font-size:8px;letter-spacing:.14em}header{height:68px}.brand{font-size:23px}.back{font-size:8px}main{padding:34px 0}.confirmation{padding:32px 20px}p{font-size:12px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="topbar">Local batches <span>✦</span> Thanks for rolling with us</div>
+  <header><a class="brand" href="index.html">Dough Boys</a><a class="back" href="index.html#flavors">Back to flavors</a></header>
+  <main>
+    <section class="confirmation" aria-labelledby="confirmation-title">
+      <div class="content">
+        <div class="stamp" aria-hidden="true">✓</div>
+        <div class="eyebrow">Fresh batch reservation</div>
+        <h1 id="confirmation-title">Order confirmed!</h1>
+        <p id="confirmation-message">Your preorder request is in. We’ll be in touch to confirm pickup details and your selected payment method.</p>
+        <div class="order-box" id="order-box"><h2>Your tubs</h2><ul class="order-items" id="order-items"></ul><div class="order-total"><span>Estimated total</span><span id="order-total"></span></div></div>
+        <p class="note">Thanks for supporting a small batch of Dough Boys.</p>
+        <a class="home" href="index.html">Back to the good stuff ↗</a>
+      </div>
+    </section>
+  </main>
+  <footer>© 2026 Dough Boys · Keep on rolling ✦</footer>
+  <script>
+    const params=new URLSearchParams(window.location.search);
+    const order=params.get('order');
+    const items=document.querySelector('#order-items');
+    if(params.get('fulfillment')==='Delivery'){
+      document.querySelector('#confirmation-message').textContent='Your preorder request is in. Venmo is required for delivery. The delivery fee shown is an estimate; we’ll confirm the final fee based on distance along with delivery details.';
+    }
+    if(order){
+      order.split('\n').forEach(line=>{
+        const item=document.createElement('li');
+        item.textContent=line;
+        items.append(item);
+      });
+      document.querySelector('#order-total').textContent=params.get('total')||'';
+      document.querySelector('#order-box').style.display='block';
+    }
+  </script>
+</body>
+</html>
